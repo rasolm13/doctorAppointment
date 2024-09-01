@@ -11,6 +11,7 @@ public class DoctorRequest {
 
     private String name;
     private String family;
+    private int age;
 
 
 }
