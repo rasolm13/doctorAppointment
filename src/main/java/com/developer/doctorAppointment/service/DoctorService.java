@@ -2,26 +2,49 @@ package com.developer.doctorAppointment.service;
 
 import com.developer.doctorAppointment.dto.DoctorRequest;
 import com.developer.doctorAppointment.dto.DoctorResponse;
+import com.developer.doctorAppointment.entity.Doctor;
 import com.developer.doctorAppointment.exception.ApplicationException;
-import com.developer.doctorAppointment.utility.MessageConstant;
-import com.developer.doctorAppointment.utility.PublicConstant;
+import com.developer.doctorAppointment.repositry.DoctorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class DoctorService {
+
+    private final DoctorRepository repository;
 
     public DoctorResponse save(DoctorRequest request) throws ApplicationException {
 
         DoctorResponse response = new DoctorResponse();
 
-        if (request.getAge() > 60) {
-            throw new ApplicationException(MessageConstant.DOCTOR_NOT_ALLOWED, PublicConstant.DOCTOR_NOT_ALLOWED_ERROR_CODE);
-        }
+        Doctor doctor = Doctor.builder()
+                .name(request.getName())
+                .family(request.getFamily())
+                .mobileNo(request.getMobileNo())
+                .build();
 
-        response.setId(2);
+        doctor = repository.save(doctor);
+
+        response.setId(doctor.getId());
 
         return response;
 
     }
+
+//    public DoctorResponse getDoctor(Integer id) {
+//
+//        DoctorResponse response = new DoctorResponse();
+//
+//        Optional<Doctor> doctor = repository.findById(id);
+//
+//        response.setId();
+//
+//        return
+//
+//
+//    }
 }
